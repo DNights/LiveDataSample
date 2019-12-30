@@ -20,8 +20,10 @@ class NameActivity : AppCompatActivity() {
         model = ViewModelProviders.of(this).get(NameViewModel::class.java)
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_name)
-        binding.lifecycleOwner = this
         binding.vm = model
+
+        val nameObserver: Observer<String> = Observer { string -> nameTextView.text = string }
+        model.currentName.observe(this, nameObserver)
 
         binding.button.setOnClickListener {
             val anotherName = "John Doe"
